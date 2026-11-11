@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Fiel Fitness</title>
+<style>
+:root{color-scheme:dark;--bg:#0a0a0a;--card:#1a1a1a;--bd:#2c2c2c;--pu:#a05cf0;--pu2:#b07df5;--tx:#e8e8e8;--mu:#a8a8a8;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box;margin:0}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{background:var(--bg);color:var(--tx);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;max-width:640px;margin:0 auto;min-height:100vh}
+header{background:#141414;padding:22px 18px 18px;border-bottom:3px solid var(--pu)}
+h1{color:var(--pu);font-size:30px;letter-spacing:-.5px}
+header p{margin-top:8px;font-size:15px}
+nav{display:flex;background:#1a1a1a;border-bottom:1px solid var(--bd);position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
+nav button{flex:1;background:none;border:0;color:var(--mu);font-weight:700;letter-spacing:.8px;padding:17px 0;font-size:14px;border-bottom:3px solid transparent;cursor:pointer}
+nav button.on{background:#251f33;color:var(--tx);border-color:var(--pu)}
+main{padding:16px 14px 40px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:20px;margin-bottom:16px}
+.w{cursor:pointer;transition:.2s}
+.w.sel{border:2px solid var(--pu);box-shadow:0 0 22px #a05cf033}
+.ic{font-size:30px;margin-bottom:8px}
+h2{color:var(--pu);font-size:21px;margin-bottom:8px}
+.seq{color:var(--mu);line-height:1.45}.seq b,.how b{color:var(--tx)}
+.meta{border-top:1px solid var(--bd);margin-top:12px;padding-top:12px;font-size:14px;line-height:1.8}
+.foot{display:flex;gap:18px;color:var(--mu);font-size:15px;border-top:1px solid var(--bd);margin-top:12px;padding-top:14px}
+.start{width:100%;margin-top:14px}
+.ex{display:flex;gap:16px}
+.thumb{flex:none;width:66px;height:66px;border-radius:12px;background:#0f0f0f;display:grid;place-items:center;font-size:32px;margin-top:30px}
+.how{color:var(--mu);line-height:1.4}
+.st{border-top:1px solid var(--bd);margin-top:10px;padding-top:10px;font-size:14px;line-height:1.7;color:var(--tx)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;border-top:1px solid var(--bd);margin-top:10px;padding-top:12px}
+.chip{border:1px solid var(--pu);background:#251f33;color:var(--pu2);border-radius:20px;padding:7px 14px;font-weight:600;font-size:14px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0 20px}
+.stat{border:1px solid var(--bd);border-radius:14px;padding:20px 0;text-align:center;background:#161616}
+.stat b{display:block;color:var(--pu);font-size:30px}.stat span{color:var(--mu);font-size:13px;letter-spacing:1px}
+.btn{background:linear-gradient(90deg,var(--pu),var(--pu2));color:#fff;border:0;border-radius:12px;padding:16px;font-weight:700;font-size:16px;letter-spacing:.8px;cursor:pointer;width:100%}
+.empty{text-align:center;padding:50px 10px;color:var(--mu)}.empty h3{color:var(--tx);font-size:24px;margin:16px 0 10px}
+.h{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-top:1px solid var(--bd)}
+.h small{color:var(--mu);display:block;margin-top:3px}
+.h button{background:none;border:0;color:#e55;font-size:20px;cursor:pointer}
+.link{background:none;border:0;color:var(--mu);margin-top:8px;text-decoration:underline;cursor:pointer;width:100%}
+#md{position:fixed;inset:0;background:#000b;display:none;align-items:flex-end;z-index:20}
+#md.on{display:flex}
+.sheet{background:#1a1a1a;border-radius:20px 20px 0 0;width:100%;max-width:640px;margin:0 auto;padding:22px 18px calc(22px + env(safe-area-inset-bottom,0px))}
+label{display:block;color:var(--mu);font-size:13px;letter-spacing:1px;margin:14px 0 6px}
+select,input{width:100%;background:#0f0f0f;color:var(--tx);border:1px solid var(--bd);border-radius:10px;padding:13px;font-size:16px}
+</style>
+</head>
+<body>
+<header><h1>Fiel Fitness</h1><p>Bem-vindo ao seu treino personalizado! 💪</p></header>
+<nav id="nav"><button data-t="t" class="on">TREINOS</button><button data-t="e">EXERCÍCIOS</button><button data-t="p">PROGRESSO</button></nav>
+<main id="m"></main>
+<div id="md"><div class="sheet">
+<h2>Registrar treino</h2>
+<label>TREINO</label><select id="fw"></select>
+<label>DURAÇÃO (MINUTOS)</label><input id="fm" type="number" min="1" inputmode="numeric">
+<label>EXERCÍCIOS FEITOS</label><input id="fe" type="number" min="1" inputmode="numeric">
+<button class="btn" id="sv" style="margin-top:20px">SALVAR</button>
+<button class="link" id="cn">Cancelar</button>
+</div></div>
+<script>
+const W=[
+{n:"Treino Superior - Academia",i:"🏋️",s:"Supino → Remada → Desenvolvimento → Puxada → Rosca bíceps → Tríceps",a:"5-10 min esteira/bike",r:"60-90 seg entre séries",t:"45-60 min",e:"Com aparelhos",m:50,c:6},
+{n:"Treino Inferior - Academia",i:"🦵",s:"Agachamento → Leg Press → Stiff → Cadeira extensora → Panturrilha",a:"5-10 min bike/elíptico",r:"90-120 seg entre séries",t:"50-70 min",e:"Com aparelhos",m:60,c:5},
+{n:"Corpo Inteiro - Casa",i:"🧍",s:"Flexão → Agachamento → Prancha → Burpee → Abdominais → Alongamento",a:"3-5 min movimentos articulares",r:"30-60 seg entre exercícios",t:"30-40 min",e:"🏠 Sem aparelhos",m:35,c:6}];
+const X=[
+{n:"Supino Reto",i:"🏋️",h:"Deite no banco, segure a barra com pegada média. Desça controladamente até o peito e empurre para cima.",a:"Descer: Inspire e desça a barra até tocar o peito",b:"Subir: Expire e empurre a barra para cima",c:["3-4 séries","8-12 reps","Com aparelho"]},
+{n:"Flexão de Braço",i:"💪",h:"Posição de prancha, mãos no chão na largura dos ombros. Desça o corpo e empurre para cima.",a:"Descer: Flexione os braços descendo o peito próximo ao chão",b:"Subir: Estenda os braços empurrando o corpo para cima",c:["3-4 séries","10-20 reps","Sem aparelho"]},
+{n:"Agachamento Livre",i:"🦵",h:"Pés na largura dos ombros, desça flexionando joelhos e quadril como se fosse sentar.",a:"Subir: Estenda pernas e quadril voltando à posição inicial",b:"Descer: Flexione joelhos descendo até coxas paralelas ao chão",c:["4 séries","10-15 reps","Com/Sem aparelho"]},
+{n:"Burpee",i:"🔥",h:"Agache, apoie as mãos no chão, estenda as pernas, flexão, puxe pernas e salte.",a:"Saltar: Pule com braços para cima",b:"Sequência: Agachar → Prancha → Flexão → Agachar → Saltar",c:["3 séries","10-15 reps","Sem aparelho"]},
+{n:"Remada Curvada",i:"🚣",h:"Incline o tronco, segure a barra e puxe em direção ao abdômen contraindo as costas.",a:"Puxar: Puxe a barra em direção ao abdômen",b:"Descer: Desça a barra controladamente",c:["3-4 séries","8-12 reps","Com aparelho"]},
+{n:"Prancha",i:"🧘",h:"Apoie antebraços e pés no chão, mantenha corpo reto como uma tábua.",a:"Manter: Segure a posição contraindo abdômen",b:"Postura: Corpo alinhado da cabeça aos pés",c:["3 séries","30-60 seg","Sem aparelho"]}];
+let tab="t",sel=1,H=[];
+try{H=JSON.parse(localStorage.getItem("ff_h")||"[]")}catch(e){}
+const save=()=>{try{localStorage.setItem("ff_h",JSON.stringify(H))}catch(e){}};
+const $=id=>document.getElementById(id);
+const day=d=>new Date(d).toISOString().slice(0,10);
+function streak(){const s=new Set(H.map(h=>day(h.d)));let n=0,d=new Date();if(!s.has(day(d)))d.setDate(d.getDate()-1);while(s.has(day(d))){n++;d.setDate(d.getDate()-1)}return n}
+function render(){
+let h="";
+if(tab=="t")h=W.map((w,k)=>`<div class="card w ${k==sel?"sel":""}" data-k="${k}"><div class="ic">${w.i}</div><h2>${w.n}</h2><p class="seq"><b>Sequência:</b> ${w.s}</p><div class="meta">📋 Aquecimento: ${w.a}<br>💪 Descanso: ${w.r}</div><div class="foot"><span>⏱️ ${w.t}</span><span>${w.e.includes("Sem")?w.e:"🏋️ "+w.e}</span></div>${k==sel?`<button class="btn start" data-k="${k}">+ REGISTRAR ESTE TREINO</button>`:""}</div>`).join("");
+else if(tab=="e")h=X.map(x=>`<div class="card"><div class="ex"><div class="thumb">${x.i}</div><div><h2>${x.n}</h2><p class="how"><b>Como fazer:</b> ${x.h}</p></div></div><div class="st">🔴 ${x.a}<br>🟢 ${x.b}</div><div class="chips">${x.c.map(c=>`<span class="chip">${c}</span>`).join("")}</div></div>`).join("");
+else{const tm=H.reduce((a,b)=>a+b.m,0),te=H.reduce((a,b)=>a+b.e,0);
+h=`<div class="card"><h2>Meu Progresso</h2><div class="grid"><div class="stat"><b>${H.length}</b><span>TREINOS</span></div><div class="stat"><b>${tm}</b><span>MINUTOS</span></div><div class="stat"><b>${te}</b><span>EXERCÍCIOS</span></div><div class="stat"><b>${streak()}</b><span>SEQUÊNCIA</span></div></div><button class="btn" id="reg">+ REGISTRAR TREINO</button></div><div class="card"><h2>Histórico de Treinos</h2>${H.length?H.slice().reverse().map(x=>`<div class="h"><div><b>${x.n}</b><small>${new Date(x.d).toLocaleDateString("pt-BR")} · ${x.m} min · ${x.e} exercícios</small></div><button data-del="${x.d}" aria-label="Excluir">✕</button></div>`).join(""):`<div class="empty"><div style="font-size:60px">🕒</div><h3>Nenhum treino registrado</h3><p>Comece a registrar seus treinos para acompanhar seu progresso!</p></div>`}</div>`}
+$("m").innerHTML=h;
+document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("on",b.dataset.t==tab));
+}
+$("nav").onclick=e=>{const t=e.target.dataset.t;if(t){tab=t;render();scrollTo(0,0)}};
+$("m").onclick=e=>{
+const del=e.target.dataset.del;if(del){H=H.filter(x=>x.d!=del);save();render();return}
+if(e.target.id=="reg"){openM(sel);return}
+if(e.target.classList.contains("start")){openM(+e.target.dataset.k);return}
+const c=e.target.closest(".w");if(c){sel=+c.dataset.k;render()}};
+$("fw").innerHTML=W.map((w,k)=>`<option value="${k}">${w.n}</option>`).join("");
+function fill(){const w=W[$("fw").value];$("fm").value=w.m;$("fe").value=w.c}
+$("fw").onchange=fill;
+function openM(k){$("fw").value=k;fill();$("md").classList.add("on")}
+$("cn").onclick=()=>$("md").classList.remove("on");
+$("sv").onclick=()=>{const m=Math.max(1,+$("fm").value||0),e=Math.max(1,+$("fe").value||0);H.push({d:Date.now(),n:W[$("fw").value].n,m,e});save();$("md").classList.remove("on");tab="p";render();scrollTo(0,0)};
+render();
+</script>
+</body>
+</html>
